@@ -10,7 +10,7 @@ internal class MainController : BaseController
 
     private MainMenuController _mainMenuController;
     private GameController _gameController;
-    private SettingsGameController _settingsGameController;
+    private SettingMenuController _settingGameController;
 
 
     public MainController(Transform placeForUi, ProfilePlayer profilePlayer)
@@ -26,7 +26,7 @@ internal class MainController : BaseController
     {
         _mainMenuController?.Dispose();
         _gameController?.Dispose();
-        _settingsGameController?.Dispose();
+        _settingGameController?.Dispose();
 
         _profilePlayer.CurrentState.UnSubscribeOnChange(OnChangeGameState);
     }
@@ -36,7 +36,7 @@ internal class MainController : BaseController
     {
         _mainMenuController?.Dispose();
         _gameController?.Dispose();
-        _settingsGameController?.Dispose();
+        _settingGameController?.Dispose();
 
         switch (state)
         {
@@ -44,7 +44,7 @@ internal class MainController : BaseController
                 _mainMenuController = new MainMenuController(_placeForUi, _profilePlayer);
                 break;
             case GameState.Settings:
-                _settingsGameController = new SettingsGameController();
+                _settingGameController = new SettingMenuController(_placeForUi, _profilePlayer);
                 break;
             case GameState.Game:
                 _gameController = new GameController(_profilePlayer);
@@ -53,7 +53,7 @@ internal class MainController : BaseController
             default:
                 _mainMenuController?.Dispose();
                 _gameController?.Dispose();
-                _settingsGameController?.Dispose();
+                _settingGameController?.Dispose();
                 break;
         }
     }
