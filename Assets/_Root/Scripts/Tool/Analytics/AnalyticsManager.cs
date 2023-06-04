@@ -13,6 +13,7 @@ namespace Tool.Analytics
             {
                 new UnityAnalyticsService()
             };
+            DontDestroyOnLoad(gameObject);
         }
 
         public void SendMainMenuOpenedEvent() =>
