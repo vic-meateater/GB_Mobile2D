@@ -1,5 +1,7 @@
 using Profile;
+using System;
 using System.Collections.Generic;
+using Tool.Ads.UnityAds;
 using Tool.Analytics;
 using UnityEngine;
 using UnityEngine.Analytics;
@@ -11,6 +13,7 @@ internal class EntryPoint : MonoBehaviour
 
     [SerializeField] private Transform _placeForUi;
     [SerializeField] private AnalyticsManager _analyticsManager;
+    [SerializeField] private UnityAdsService _adsService;
 
     private MainController _mainController;
 
@@ -25,12 +28,22 @@ internal class EntryPoint : MonoBehaviour
             ["Car speed"] = SpeedCar,
         });
         _analyticsManager.SendMainMenuOpenedEvent();
+
+        if (_adsService.IsInitialized)
+        {
+            OnAdsInitialized();
+        }
+        else
+        {
+            _adsService.Initialized.AddListener(OnAdsInitialized);
+        }
     }
 
-    
+    private void OnAdsInitialized() => _adsService.InterstitialPlayer.Play();
 
     private void OnDestroy()
     {
+        _adsService.Initialized.RemoveListener(OnAdsInitialized);
         _mainController.Dispose();
     }
 }
