@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: ProductLibrary
   m_EditorClassIdentifier: 
   <Products>k__BackingField:
-  - <Id>k__BackingField: Health
+  - <Id>k__BackingField: Golds
     <ProductType>k__BackingField: 0

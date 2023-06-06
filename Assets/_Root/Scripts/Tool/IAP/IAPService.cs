@@ -4,8 +4,11 @@ using UnityEngine.Purchasing;
 
 namespace Tool.IAP
 {
+    [RequireComponent(typeof(IAPService))]
     internal class IAPService : MonoBehaviour, IStoreListener, IIAPService
     {
+        private static IAPService _instance;
+
         [Header("Components")]
         [SerializeField] private ProductLibrary _productLibrary;
 
@@ -20,10 +23,21 @@ namespace Tool.IAP
         private PurchaseRestorer _purchaseRestorer;
         private IStoreController _controller;
 
+        public static IAPService Instance => _instance;
 
-        private void Awake() =>
+        private void Awake()
+        {
+            if (_instance == null)
+            {
+                _instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+                return;
+            }
             InitializeProducts();
-
+        }
         private void InitializeProducts()
         {
             StandardPurchasingModule purchasingModule = StandardPurchasingModule.Instance();

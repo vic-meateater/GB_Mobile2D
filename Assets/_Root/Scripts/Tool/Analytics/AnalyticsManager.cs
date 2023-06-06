@@ -17,6 +17,7 @@ namespace Tool.Analytics
 
         public void SendMainMenuOpenedEvent() =>
             SendEvent("MainMenuOpened");
+
         public void SendGameStartEvent() => 
             SendEvent("gameStarted");
 

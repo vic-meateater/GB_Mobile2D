@@ -1,6 +1,7 @@
 using Profile;
 using Tool;
 using Tool.Ads.UnityAds;
+using Tool.IAP;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -17,7 +18,7 @@ namespace Ui
         {
             _profilePlayer = profilePlayer;
             _view = LoadView(placeForUi);
-            _view.Init(StartGame, SettingsGame, GetReward);
+            _view.Init(StartGame, SettingsGame, GetReward, BuyItem);
         }
 
         private MainMenuView LoadView(Transform placeForUi)
@@ -34,5 +35,6 @@ namespace Ui
         private void SettingsGame() => 
             _profilePlayer.CurrentState.Value = GameState.Settings;
         private void GetReward() => UnityAdsService.Instance.RewardedPlayer.Play();
+        private void BuyItem() => IAPService.Instance.Buy("Golds");
     }
 }
