@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64dcc02280fdeff4788c0ccda33bdb42, type: 3}
   m_Name: ProductLibrary
   m_EditorClassIdentifier: 
-  <Products>k__BackingField: []
+  <Products>k__BackingField:
+  - <Id>k__BackingField: Health
+    <ProductType>k__BackingField: 0
