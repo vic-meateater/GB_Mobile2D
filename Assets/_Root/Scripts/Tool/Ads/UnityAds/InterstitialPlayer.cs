@@ -1,3 +1,4 @@
+using Tool.Ads.UnityAds;
 using UnityEngine.Advertisements;
 
 namespace Tool.Ads.UnityAds
@@ -6,7 +7,7 @@ namespace Tool.Ads.UnityAds
     {
         public InterstitialPlayer(string id) : base(id) { }
 
-        protected override void OnPlaying() => Advertisement.Show(Id);
-        protected override void Load() => Advertisement.Load(Id);
+        protected override void OnPlaying() => Advertisement.Show(Id, this);
+        protected override void Load() => Advertisement.Load(Id, this);
     }
 }

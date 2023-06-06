@@ -21,7 +21,7 @@ internal class EntryPoint : MonoBehaviour
     private void Start()
     {
         var profilePlayer = new ProfilePlayer(SpeedCar, InitialState);
-        _mainController = new MainController(_placeForUi, profilePlayer, _analyticsManager);
+        _mainController = new MainController(_placeForUi, profilePlayer, _analyticsManager, _adsService);
 
         Analytics.CustomEvent("MainMenuOpenedFromStart", new Dictionary<string, object>()
         {
