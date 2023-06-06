@@ -11,14 +11,12 @@ namespace Ui
         private readonly ResourcePath _resourcePath = new ResourcePath("Prefabs/MainMenu");
         private readonly ProfilePlayer _profilePlayer;
         private readonly MainMenuView _view;
-        private readonly UnityAdsService _adsService;
 
 
-        public MainMenuController(Transform placeForUi, ProfilePlayer profilePlayer, UnityAdsService unityAdsService)
+        public MainMenuController(Transform placeForUi, ProfilePlayer profilePlayer)
         {
             _profilePlayer = profilePlayer;
             _view = LoadView(placeForUi);
-            _adsService = unityAdsService;
             _view.Init(StartGame, SettingsGame, GetReward);
         }
 
@@ -34,7 +32,7 @@ namespace Ui
         private void StartGame() =>
             _profilePlayer.CurrentState.Value = GameState.Game;
         private void SettingsGame() => 
-            _profilePlayer.CurrentState.Value = GameState.Settings;  
-        private void GetReward() => _adsService.RewardedPlayer.Play();
+            _profilePlayer.CurrentState.Value = GameState.Settings;
+        private void GetReward() => UnityAdsService.Instance.RewardedPlayer.Play();
     }
 }

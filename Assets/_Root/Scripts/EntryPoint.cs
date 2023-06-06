@@ -13,7 +13,6 @@ internal class EntryPoint : MonoBehaviour
 
     [SerializeField] private Transform _placeForUi;
     [SerializeField] private AnalyticsManager _analyticsManager;
-    [SerializeField] private UnityAdsService _adsService;
 
     private MainController _mainController;
 
@@ -21,7 +20,7 @@ internal class EntryPoint : MonoBehaviour
     private void Start()
     {
         var profilePlayer = new ProfilePlayer(SpeedCar, InitialState);
-        _mainController = new MainController(_placeForUi, profilePlayer, _analyticsManager, _adsService);
+        _mainController = new MainController(_placeForUi, profilePlayer, _analyticsManager);
 
         Analytics.CustomEvent("MainMenuOpenedFromStart", new Dictionary<string, object>()
         {
@@ -29,21 +28,21 @@ internal class EntryPoint : MonoBehaviour
         });
         _analyticsManager.SendMainMenuOpenedEvent();
 
-        if (_adsService.IsInitialized)
+        if (UnityAdsService.Instance.IsInitialized)
         {
             OnAdsInitialized();
         }
         else
         {
-            _adsService.Initialized.AddListener(OnAdsInitialized);
+            UnityAdsService.Instance.Initialized.AddListener(OnAdsInitialized);
         }
     }
 
-    private void OnAdsInitialized() => _adsService.InterstitialPlayer.Play();
+    private void OnAdsInitialized() => UnityAdsService.Instance.InterstitialPlayer.Play();
 
     private void OnDestroy()
     {
-        _adsService.Initialized.RemoveListener(OnAdsInitialized);
+        UnityAdsService.Instance.Initialized.RemoveListener(OnAdsInitialized);
         _mainController.Dispose();
     }
 }

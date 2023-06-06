@@ -10,7 +10,6 @@ internal class MainController : BaseController
     private readonly Transform _placeForUi;
     private readonly ProfilePlayer _profilePlayer;
     private readonly AnalyticsManager _analyticsManager;
-    private readonly UnityAdsService _unityAdsService;
 
     private MainMenuController _mainMenuController;
     private GameController _gameController;
@@ -18,12 +17,11 @@ internal class MainController : BaseController
 
 
 
-    public MainController(Transform placeForUi, ProfilePlayer profilePlayer, AnalyticsManager analyticsManager, UnityAdsService unityAdsService)
+    public MainController(Transform placeForUi, ProfilePlayer profilePlayer, AnalyticsManager analyticsManager)
     {
         _placeForUi = placeForUi;
         _profilePlayer = profilePlayer;
         _analyticsManager = analyticsManager;
-        _unityAdsService = unityAdsService;
 
         profilePlayer.CurrentState.SubscribeOnChange(OnChangeGameState);
         OnChangeGameState(_profilePlayer.CurrentState.Value);
@@ -48,7 +46,7 @@ internal class MainController : BaseController
         switch (state)
         {
             case GameState.Start:
-                _mainMenuController = new MainMenuController(_placeForUi, _profilePlayer, _unityAdsService);
+                _mainMenuController = new MainMenuController(_placeForUi, _profilePlayer);
                 break;
             case GameState.Settings:
                 _settingGameController = new SettingMenuController(_placeForUi, _profilePlayer);

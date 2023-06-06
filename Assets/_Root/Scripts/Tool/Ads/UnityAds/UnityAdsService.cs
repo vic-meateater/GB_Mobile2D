@@ -4,8 +4,11 @@ using UnityEngine.Events;
 
 namespace Tool.Ads.UnityAds
 {
+    [RequireComponent(typeof(UnityAdsService))]
     internal class UnityAdsService : MonoBehaviour, IUnityAdsInitializationListener, IAdsService
     {
+        private static UnityAdsService _instance;
+
         [Header("Components")]
         [SerializeField] private UnityAdsSettings _adsSettings;
 
@@ -17,9 +20,19 @@ namespace Tool.Ads.UnityAds
         public IAdsPlayer BannerPlayer { get; private set; }
         public bool IsInitialized => Advertisement.isInitialized;
 
-
+        public static UnityAdsService Instance => _instance;
+        
         private void Awake()
         {
+            if (_instance == null)
+            {
+                _instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+                return;
+            }
             InitializeAds();
             InitializePlayers();
         }
