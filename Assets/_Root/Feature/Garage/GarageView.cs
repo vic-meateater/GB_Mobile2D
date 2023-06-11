@@ -1,18 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
-public class GarageView : MonoBehaviour
+namespace Feature.Garage
 {
-    // Start is called before the first frame update
-    void Start()
+    internal interface IGarageView
     {
-        
+        void Init(UnityAction apply, UnityAction back);
+        void Deinit();
     }
-
-    // Update is called once per frame
-    void Update()
+    internal class GarageView : MonoBehaviour, IGarageView
     {
-        
+        [SerializeField] private Button _buttonApply;
+        [SerializeField] private Button _buttonBack;
+
+        private void OnDestroy() => Deinit();
+
+        public void Init(UnityAction apply, UnityAction back)
+        {
+            _buttonApply.onClick.AddListener(apply);
+            _buttonApply.onClick.AddListener(back);
+        }
+        public void Deinit()
+        {
+            _buttonApply.onClick.RemoveAllListeners();
+            _buttonBack.onClick.RemoveAllListeners();
+        }
     }
 }

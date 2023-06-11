@@ -18,7 +18,7 @@ namespace Ui
         {
             _profilePlayer = profilePlayer;
             _view = LoadView(placeForUi);
-            _view.Init(StartGame, SettingsGame, GetReward, BuyItem);
+            _view.Init(StartGame, SettingsGame, GetReward, BuyItem, EnterGarage);
         }
 
         private MainMenuView LoadView(Transform placeForUi)
@@ -36,5 +36,6 @@ namespace Ui
             _profilePlayer.CurrentState.Value = GameState.Settings;
         private void GetReward() => UnityAdsService.Instance.RewardedPlayer.Play();
         private void BuyItem() => IAPService.Instance.Buy("Golds");
+        private void EnterGarage() =>_profilePlayer.CurrentState.Value = GameState.Garage;
     }
 }

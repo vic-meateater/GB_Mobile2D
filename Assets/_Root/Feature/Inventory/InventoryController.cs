@@ -9,24 +9,24 @@ namespace Feature.Inventory
 {
     internal class InventoryController: BaseController
     {
-        private readonly ResourcePath _viewPath = new ResourcePath("");
-        private readonly ResourcePath _dataSourcePath = new ResourcePath("");
+        private readonly ResourcePath _viewPath = new ResourcePath("Prefabs/Inventory/InventoryView");
+        private readonly ResourcePath _dataSourcePath = new ResourcePath("Configs/Inventory/ItemConfigDataSource");
 
         private readonly InventoryView _inventoryView;
         private readonly IInventoryModel _inventoryModel;
         private readonly ItemsRepository _itemsRepository;
 
         public InventoryController(
-            [NotNull] Transform placeFirUi, 
+            [NotNull] Transform placeForUi, 
             [NotNull] IInventoryModel inventoryModel)
         {
-            if(placeFirUi == null)
-                throw new ArgumentNullException(nameof(placeFirUi));
+            if(placeForUi == null)
+                throw new ArgumentNullException(nameof(placeForUi));
 
             _inventoryModel = inventoryModel ?? throw new ArgumentNullException(nameof(inventoryModel));
 
             _itemsRepository = CreateRepository();
-            _inventoryView = LoadView(placeFirUi);
+            _inventoryView = LoadView(placeForUi);
 
             _inventoryView.Dispalay(_itemsRepository.Items.Values, OnDisplayClicked);
 
@@ -69,14 +69,14 @@ namespace Feature.Inventory
 
         }
 
-        private void UnequipItem(string itemId)
-        {
-            _inventoryView.Unselect(itemId);
-            _inventoryModel.EquipItem(itemId);
-        }
         private void EquipItem(string itemId)
         {
             _inventoryView.Select(itemId);
+            _inventoryModel.EquipItem(itemId);
+        }
+        private void UnequipItem(string itemId)
+        {
+            _inventoryView.Unselect(itemId);
             _inventoryModel.UnequipItem(itemId);
         }
     }

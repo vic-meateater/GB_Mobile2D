@@ -3,7 +3,7 @@ using Game;
 using Profile;
 using UnityEngine;
 using Tool.Analytics;
-using Tool.Ads.UnityAds;
+using Feature.Garage;
 
 internal class MainController : BaseController
 {
@@ -13,6 +13,7 @@ internal class MainController : BaseController
 
     private MainMenuController _mainMenuController;
     private GameController _gameController;
+    private GarageController _garageController;
     private SettingMenuController _settingGameController;
 
 
@@ -29,9 +30,7 @@ internal class MainController : BaseController
 
     protected override void OnDispose()
     {
-        _mainMenuController?.Dispose();
-        _gameController?.Dispose();
-        _settingGameController?.Dispose();
+        OnDisposeControllers();
 
         _profilePlayer.CurrentState.UnSubscribeOnChange(OnChangeGameState);
     }
@@ -39,9 +38,7 @@ internal class MainController : BaseController
 
     private void OnChangeGameState(GameState state)
     {
-        _mainMenuController?.Dispose();
-        _gameController?.Dispose();
-        _settingGameController?.Dispose();
+        OnDisposeControllers();
 
         switch (state)
         {
@@ -55,11 +52,20 @@ internal class MainController : BaseController
                 _gameController = new GameController(_profilePlayer);
                 _analyticsManager.SendGameStartEvent();
                 break;
+            case GameState.Garage:
+                _garageController = new GarageController(_placeForUi, _profilePlayer);
+                break;
             default:
-                _mainMenuController?.Dispose();
-                _gameController?.Dispose();
-                _settingGameController?.Dispose();
+                OnDisposeControllers();
                 break;
         }
+    }
+
+    private void OnDisposeControllers()
+    {
+        _mainMenuController?.Dispose();
+        _gameController?.Dispose();
+        _settingGameController?.Dispose();
+        _garageController?.Dispose();
     }
 }

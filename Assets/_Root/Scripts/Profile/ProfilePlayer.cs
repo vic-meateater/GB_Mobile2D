@@ -8,7 +8,7 @@ namespace Profile
     {
         public readonly SubscriptionProperty<GameState> CurrentState;
         public readonly CarModel CurrentCar;
-        public readonly IInventoryModel InventoryModel;
+        public readonly IInventoryModel Inventory;
 
 
         public ProfilePlayer(float speedCar, GameState initialState) : this(speedCar)
@@ -20,7 +20,7 @@ namespace Profile
         {
             CurrentState = new SubscriptionProperty<GameState>();
             CurrentCar = new CarModel(speedCar);
-            InventoryModel = new InventoryModel();
+            Inventory = new InventoryModel();
         }
     }
 }
