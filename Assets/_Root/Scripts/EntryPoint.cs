@@ -8,7 +8,8 @@ using UnityEngine.Analytics;
 
 internal class EntryPoint : MonoBehaviour
 {
-    private const float SpeedCar = 15f;
+    private const float SpeedCar = 3f;
+    private const float JumpHeight = 2f;
     private const GameState InitialState = GameState.Start;
 
     [SerializeField] private Transform _placeForUi;
@@ -19,7 +20,7 @@ internal class EntryPoint : MonoBehaviour
 
     private void Start()
     {
-        var profilePlayer = new ProfilePlayer(SpeedCar, InitialState);
+        var profilePlayer = new ProfilePlayer(SpeedCar, JumpHeight, InitialState);
         _mainController = new MainController(_placeForUi, profilePlayer, _analyticsManager);
 
         Analytics.CustomEvent("MainMenuOpenedFromStart", new Dictionary<string, object>()
@@ -42,7 +43,7 @@ internal class EntryPoint : MonoBehaviour
 
     private void OnDestroy()
     {
-        UnityAdsService.Instance.Initialized.RemoveListener(OnAdsInitialized);
+      //  UnityAdsService.Instance.Initialized.RemoveListener(OnAdsInitialized);
         _mainController.Dispose();
     }
 }

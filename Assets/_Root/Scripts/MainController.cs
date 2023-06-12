@@ -49,7 +49,7 @@ internal class MainController : BaseController
                 _settingGameController = new SettingMenuController(_placeForUi, _profilePlayer);
                 break;
             case GameState.Game:
-                _gameController = new GameController(_profilePlayer);
+                _gameController = new GameController(_placeForUi, _profilePlayer);
                 _analyticsManager.SendGameStartEvent();
                 break;
             case GameState.Garage:
