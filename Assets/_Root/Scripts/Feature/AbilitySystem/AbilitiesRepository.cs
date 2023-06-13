@@ -8,14 +8,14 @@ namespace Feature.AbilitySystem
         IReadOnlyDictionary<string, IAbility> Items { get; }
     }
 
-    internal class AbilitiesRepository : BaseRepository<string, IAbility, AbilityItemConfig>
+    internal class AbilitiesRepository : BaseRepository<string, IAbility, IAbilityItem>, IAbilitiesRepository
     {
-        public AbilitiesRepository(IEnumerable<AbilityItemConfig> configs) : base(configs)
+        public AbilitiesRepository(IEnumerable<IAbilityItem> abilityItems) : base(abilityItems)
         { }
 
-        protected override string GetKey(AbilityItemConfig config) => config.Id;
+        protected override string GetKey(IAbilityItem abilityItem) => abilityItem.Id;
 
-        protected override IAbility CreateItem(AbilityItemConfig config) =>
+        protected override IAbility CreateItem(IAbilityItem config) =>
             config.Type switch
             {
                 AbilityType.Gun => new GunAbility(config),

@@ -42,7 +42,7 @@ namespace Feature.Inventory
         {
             ItemConfig[] itemConfigs = ContentDataSourceLoader.LoadItemConfigs(_dataSourcePath);
             ItemsRepository repository = new(itemConfigs);
-            AddRepository(repository);
+            AddDisposable(repository);
             return repository;
         }
 

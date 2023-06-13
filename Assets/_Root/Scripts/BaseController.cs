@@ -6,6 +6,7 @@ using Object = UnityEngine.Object;
 
 internal abstract class BaseController : IDisposable
 {
+    private List<IDisposable> _disposables;
     private List<BaseController> _baseControllers;
     private List<GameObject> _gameObjects;
     private List<IRepository> _repositories; 
@@ -19,23 +20,21 @@ internal abstract class BaseController : IDisposable
 
         _isDisposed = true;
 
-        DisposeBaseControllers();
+        DisposeDisposables();
         DisposeGameObjects();
-        DisposeRepositories();
 
         OnDispose();
     }
 
 
-    private void DisposeBaseControllers()
+    private void DisposeDisposables()
     {
-        if (_baseControllers == null)
-            return;
-
-        foreach (BaseController baseController in _baseControllers)
-            baseController.Dispose();
-
-        _baseControllers.Clear();
+        if (_disposables == null) return;
+        foreach (IDisposable d in _disposables)
+        {
+            d.Dispose();
+        }
+        _disposables.Clear();
     }
 
     private void DisposeGameObjects()
@@ -48,35 +47,19 @@ internal abstract class BaseController : IDisposable
 
         _gameObjects.Clear();
     }
-    private void DisposeRepositories()
-    {
-        if (_repositories == null)
-            return;
-        foreach (var repository in _repositories)
-        {
-            repository.Dispose();
-        }
-        _repositories.Clear();
-    }
 
     protected virtual void OnDispose() { }
 
 
-    protected void AddController(BaseController baseController)
+    protected void AddDisposable(IDisposable disposable)
     {
-        _baseControllers ??= new List<BaseController>();
-        _baseControllers.Add(baseController);
+        _disposables ??= new List<IDisposable>();
+        _disposables.Add(disposable);
     }
 
     protected void AddGameObject(GameObject gameObject)
     {
         _gameObjects ??= new List<GameObject>();
         _gameObjects.Add(gameObject);
-    }
-
-    protected void AddRepository(IRepository repository)
-    {
-        _repositories ??= new List<IRepository>();
-        _repositories.Add(repository);
     }
 }

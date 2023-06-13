@@ -1,4 +1,3 @@
-using JoostenProductions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityStandardAssets.CrossPlatformInput;
@@ -17,15 +16,7 @@ namespace Game.InputLogic
         [SerializeField] private float _inputMultiplier = 10;
 
         private bool _usingJoystick;
-
-
-        private void Start() =>
-            UpdateManager.SubscribeToUpdate(Move);
-
-        private void OnDestroy() =>
-            UpdateManager.UnsubscribeFromUpdate(Move);
-
-
+        
         public void OnPointerDown(PointerEventData eventData)
         {
             _joystick.transform.position = eventData.position;
@@ -58,7 +49,7 @@ namespace Game.InputLogic
         private void SetActive(bool active) =>
             _container.alpha = active ? _enabledAlpha : _disabledAlpha;
 
-        private void Move()
+        protected override void Move()
         {
             if (!_usingJoystick)
                 return;

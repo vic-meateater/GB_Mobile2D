@@ -7,10 +7,10 @@ namespace Feature.AbilitySystem.Abilities
 {
     internal class RocketLaunchAbility : IAbility
     {
-        private readonly AbilityItemConfig _config;
+        private readonly IAbilityItem _config;
         
-        public RocketLaunchAbility([NotNull] AbilityItemConfig config) =>
-            _config = config ? config : throw new ArgumentNullException(nameof(config));
+        public RocketLaunchAbility([NotNull] IAbilityItem config) =>
+            _config = config ?? throw new ArgumentNullException(nameof(config));
 
 
         public void Apply(IAbilityActivator activator)

@@ -44,13 +44,13 @@ namespace Feature.Garage
         {
             UpgradeItemConfig[] upgradeConfigs = ContentDataSourceLoader.LoadUpgradeItemConfigs(_dataSourcePath);
             UpgradeHandlersRepository repository = new(upgradeConfigs);
-            AddRepository(repository);
+            AddDisposable(repository);
             return repository;
         }
         private InventoryController CreateInventoryController(Transform placeForUi)
         {
             InventoryController inventoryController = new(placeForUi, _profilePlayer.Inventory);
-            AddController(inventoryController);
+            AddDisposable(inventoryController);
             return inventoryController;
         }
         private GarageView LoadView(Transform placeForUi)
