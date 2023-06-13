@@ -15,3 +15,4 @@ MonoBehaviour:
   _itemConfigs:
   - {fileID: 11400000, guid: b2be8ddf5a8ea584c98f9b2d3ced8d0b, type: 2}
   - {fileID: 11400000, guid: 6ef8f0f96b93302459db250b4a6605d2, type: 2}
+  - {fileID: 11400000, guid: 5d2ab1c3d0adf344fbdca7fe680ed6be, type: 2}

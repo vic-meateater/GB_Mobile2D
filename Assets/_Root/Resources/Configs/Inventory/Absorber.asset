@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe77cc1903f756541b0ecd3ad18ea1e6, type: 3}
   m_Name: Absorber
   m_EditorClassIdentifier: 
-  <Id>k__BackingField: 
-  <Title>k__BackingField: 
-  <Icon>k__BackingField: {fileID: 0}
+  <Id>k__BackingField: AbsorberID
+  <Title>k__BackingField: Absorber for jump
+  <Icon>k__BackingField: {fileID: 3815954189206336483, guid: 02caf2529e444a14ab5eae5fafab7fd4, type: 3}
