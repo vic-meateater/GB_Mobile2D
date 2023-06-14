@@ -13,7 +13,7 @@ internal class MainController : BaseController
 
     private MainMenuController _mainMenuController;
     private GameController _gameController;
-    private GarageController _garageController;
+    private GarageContext _garageContext;
     private SettingMenuController _settingGameController;
 
 
@@ -53,7 +53,8 @@ internal class MainController : BaseController
                 _analyticsManager.SendGameStartEvent();
                 break;
             case GameState.Garage:
-                _garageController = new GarageController(_placeForUi, _profilePlayer);
+                //_garageController = new GarageController(_placeForUi, _profilePlayer);
+                _garageContext = new GarageContext(_placeForUi, _profilePlayer);
                 break;
             default:
                 OnDisposeControllers();
@@ -66,6 +67,6 @@ internal class MainController : BaseController
         _mainMenuController?.Dispose();
         _gameController?.Dispose();
         _settingGameController?.Dispose();
-        _garageController?.Dispose();
+        _garageContext?.Dispose();
     }
 }

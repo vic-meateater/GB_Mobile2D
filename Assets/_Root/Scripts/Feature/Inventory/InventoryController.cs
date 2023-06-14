@@ -9,8 +9,6 @@ namespace Feature.Inventory
     }
     internal class InventoryController: BaseController, IInventoryController
     {
-
-
         private readonly IInventoryView _inventoryView;
         private readonly IInventoryModel _inventoryModel;
         private readonly IItemsRepository _itemsRepository;

@@ -4,65 +4,37 @@ using JetBrains.Annotations;
 using Profile;
 using System;
 using System.Collections.Generic;
-using Tool;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Feature.Garage
 {
     internal interface IGarageController
-    {
-    }
+    { }
 
     internal class GarageController : BaseController, IGarageController
     {
-        private readonly ResourcePath _viewPath = new("Prefabs/Garage/GarageView");
-        private readonly ResourcePath _dataSourcePath = new("Configs/Garage/UpgradeItemConfigDataSource");
-
-        private readonly GarageView _view;
+        private readonly IGarageView _view;
         private readonly ProfilePlayer _profilePlayer;
-        private readonly InventoryContext _inventoryContext;
+        private readonly IUpgradable _currentCar;
         private readonly IUpgradeHandlersRepository _upgradeHandlersRepository;
+        private readonly IInventoryModel _inventoryModel;
 
         public GarageController(
-            [NotNull] Transform placeForUi,
-            [NotNull] ProfilePlayer profilePlayer)
+            [NotNull] ProfilePlayer profilePlayer,
+            [NotNull] IUpgradable currentCar,
+            [NotNull] IUpgradeHandlersRepository upgradeHandlersRepository,
+            [NotNull] IInventoryModel inventoryModel,
+            [NotNull] IGarageView view)
         {
-            if (placeForUi == null)
-                throw new ArgumentNullException(nameof(placeForUi));
-
             _profilePlayer = profilePlayer ?? throw new ArgumentNullException(nameof(profilePlayer));
-
-            _upgradeHandlersRepository = CreateRepository();
-            _inventoryContext = CreateInventoryContext(placeForUi, _profilePlayer.Inventory);
-            _view = LoadView(placeForUi);
+            _upgradeHandlersRepository = 
+                upgradeHandlersRepository ?? throw new ArgumentNullException(nameof(upgradeHandlersRepository));
+            
+            _view = view ?? throw new ArgumentNullException(nameof(view));
+            _inventoryModel = inventoryModel ?? throw new ArgumentNullException(nameof(inventoryModel));
+            _currentCar = currentCar ?? throw new ArgumentNullException(nameof(currentCar));
 
             _view.Init(Apply, Back);
-        }
-
-        private InventoryContext CreateInventoryContext(Transform placeForUi, IInventoryModel profilePlayerInventory)
-        {
-            InventoryContext context = new(placeForUi, profilePlayerInventory);
-            AddDisposable(context);
-            return context;
-        }
-
-
-        private GarageView LoadView(Transform placeForUi)
-        {
-            GameObject prefab = ResourcesLoader.LoadPrefab(_viewPath);
-            GameObject objectView = Object.Instantiate(prefab, placeForUi, false);
-            AddGameObject(objectView);
-
-            return objectView.GetComponent<GarageView>();
-        }
-        
-        private UpgradeHandlersRepository CreateRepository()
-        {
-            UpgradeItemConfig[] upgradeConfigs = ContentDataSourceLoader.LoadUpgradeItemConfigs(_dataSourcePath);
-            UpgradeHandlersRepository repository = new(upgradeConfigs);
-            AddDisposable(repository);
-            return repository;
         }
 
         private void Apply()
@@ -70,8 +42,8 @@ namespace Feature.Garage
             _profilePlayer.CurrentCar.Restore();
 
             UpgradeWithEquippedItems(
-                _profilePlayer.CurrentCar,
-                _profilePlayer.Inventory.EquppedItems,
+                _currentCar,
+                _inventoryModel.EquppedItems,
                 _upgradeHandlersRepository.Items);
 
             _profilePlayer.CurrentState.Value = GameState.Start;
