@@ -33,7 +33,7 @@ namespace Feature.Inventory
             }
         }
         
-        protected override void OnDispose()=>_inventoryView.Clear();
+        protected override void OnDispose() => _inventoryView.Clear();
 
         
         private void OnDisplayClicked(string ItemId)

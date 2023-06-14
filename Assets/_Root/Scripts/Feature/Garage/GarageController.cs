@@ -4,7 +4,6 @@ using JetBrains.Annotations;
 using Profile;
 using System;
 using System.Collections.Generic;
-using Feature.Inventory.Items;
 using Tool;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -15,15 +14,15 @@ namespace Feature.Garage
     {
     }
 
-    internal class GarageController : BaseController
+    internal class GarageController : BaseController, IGarageController
     {
         private readonly ResourcePath _viewPath = new("Prefabs/Garage/GarageView");
         private readonly ResourcePath _dataSourcePath = new("Configs/Garage/UpgradeItemConfigDataSource");
 
         private readonly GarageView _view;
         private readonly ProfilePlayer _profilePlayer;
-        private readonly InventoryController _inventoryController;
-        private readonly UpgradeHandlersRepository _upgradeHandlersRepository;
+        private readonly InventoryContext _inventoryContext;
+        private readonly IUpgradeHandlersRepository _upgradeHandlersRepository;
 
         public GarageController(
             [NotNull] Transform placeForUi,
@@ -35,28 +34,20 @@ namespace Feature.Garage
             _profilePlayer = profilePlayer ?? throw new ArgumentNullException(nameof(profilePlayer));
 
             _upgradeHandlersRepository = CreateRepository();
-            _inventoryController = CreateInventoryController(placeForUi);
+            _inventoryContext = CreateInventoryContext(placeForUi, _profilePlayer.Inventory);
             _view = LoadView(placeForUi);
 
             _view.Init(Apply, Back);
         }
 
-        private UpgradeHandlersRepository CreateRepository()
+        private InventoryContext CreateInventoryContext(Transform placeForUi, IInventoryModel profilePlayerInventory)
         {
-            UpgradeItemConfig[] upgradeConfigs = ContentDataSourceLoader.LoadUpgradeItemConfigs(_dataSourcePath);
-            UpgradeHandlersRepository repository = new(upgradeConfigs);
-            AddDisposable(repository);
-            return repository;
+            InventoryContext context = new(placeForUi, profilePlayerInventory);
+            AddDisposable(context);
+            return context;
         }
-        private InventoryController CreateInventoryController(Transform placeForUi)
-        {
-            InventoryView inventoryView = LoadInventoryView(placeForUi);
-            IInventoryModel inventoryModel = _profilePlayer.Inventory;
-            IItemsRepository itemRepository = CreateItemRepository();
-            InventoryController inventoryController = new(inventoryView, inventoryModel, itemRepository);
-            AddDisposable(inventoryController);
-            return inventoryController;
-        }
+
+
         private GarageView LoadView(Transform placeForUi)
         {
             GameObject prefab = ResourcesLoader.LoadPrefab(_viewPath);
@@ -66,23 +57,12 @@ namespace Feature.Garage
             return objectView.GetComponent<GarageView>();
         }
         
-        private ItemsRepository CreateItemRepository()
+        private UpgradeHandlersRepository CreateRepository()
         {
-            ResourcePath _dataSourcePath = new ResourcePath("Configs/Inventory/ItemConfigDataSource");
-            ItemConfig[] itemConfigs = ContentDataSourceLoader.LoadItemConfigs(_dataSourcePath);
-            ItemsRepository repository = new(itemConfigs);
+            UpgradeItemConfig[] upgradeConfigs = ContentDataSourceLoader.LoadUpgradeItemConfigs(_dataSourcePath);
+            UpgradeHandlersRepository repository = new(upgradeConfigs);
             AddDisposable(repository);
             return repository;
-        }
-
-        private InventoryView LoadInventoryView(Transform placeForUi)
-        {
-            ResourcePath _viewPath = new ResourcePath("Prefabs/Inventory/InventoryView");
-            GameObject prefab = ResourcesLoader.LoadPrefab(_viewPath);
-            GameObject objectView = Object.Instantiate(prefab, placeForUi);
-            AddGameObject(objectView);
-
-            return objectView.GetComponent<InventoryView>();
         }
 
         private void Apply()

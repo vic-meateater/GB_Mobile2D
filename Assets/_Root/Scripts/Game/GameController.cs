@@ -17,8 +17,9 @@ namespace Game
 
         private readonly CarController _carController;
         private readonly InputGameController _inputGameController;
-        private readonly IAbilitiesController _abilitiesController;
+        //private readonly IAbilitiesController _abilitiesController;
         private readonly TapeBackgroundController _tapeBackgroundController;
+        private readonly AbilitiesContext _abilitiesContext;
         
         public GameController(Transform placeForUi, ProfilePlayer profilePlayer)
         {
@@ -34,43 +35,43 @@ namespace Game
             var carController = new CarController();
             AddDisposable(carController);
             
-            _abilitiesController = CreateAbilitiesController(placeForUi, carController);
+            _abilitiesContext = CreateAbilitiesContext(placeForUi, carController);
         }
 
-        private IAbilitiesController CreateAbilitiesController(Transform placeForUi, IAbilityActivator abilityActivator)
+        private AbilitiesContext CreateAbilitiesContext(Transform placeForUi, IAbilityActivator abilityActivator)
         {
-            AbilityItemConfig[] itemConfigs = LoadAbilityItemConfigs();
-            AbilitiesRepository repository = CreateAbilitiesRepository(itemConfigs);
-            AbilitiesView view = LoadAbilitiesView(placeForUi);
+            // AbilityItemConfig[] itemConfigs = LoadAbilityItemConfigs();
+            // AbilitiesRepository repository = CreateAbilitiesRepository(itemConfigs);
+            // AbilitiesView view = LoadAbilitiesView(placeForUi);
             
-            AbilitiesController controller = new(view, repository, itemConfigs, abilityActivator);
-            AddDisposable(controller);
+            AbilitiesContext сontext = new(placeForUi, abilityActivator);
+            AddDisposable(сontext);
 
-            return controller;
+            return сontext;
         }
         
-        private AbilityItemConfig[] LoadAbilityItemConfigs()
-        {
-            ResourcePath _dataSourcePath = new("Configs/Ability/AbilityItemConfigDataSource");
-            return ContentDataSourceLoader.LoadAbilityItemConfigs(_dataSourcePath);
-        }
-
-        private AbilitiesRepository CreateAbilitiesRepository(IEnumerable<IAbilityItem> abilityItemConfigs)
-        {
-            AbilitiesRepository repository = new(abilityItemConfigs);
-            AddDisposable(repository);
-
-            return repository;
-        }
-
-        private AbilitiesView LoadAbilitiesView(Transform placeForUi)
-        {
-            ResourcePath _viewPath = new("Prefabs/Ability/AbilitiesView");
-            GameObject prefab = ResourcesLoader.LoadPrefab(_viewPath);
-            GameObject objectView = UnityEngine.Object.Instantiate(prefab, placeForUi, false);
-            AddGameObject(objectView);
-
-            return objectView.GetComponent<AbilitiesView>();
-        }
+        // private AbilityItemConfig[] LoadAbilityItemConfigs()
+        // {
+        //     ResourcePath _dataSourcePath = new("Configs/Ability/AbilityItemConfigDataSource");
+        //     return ContentDataSourceLoader.LoadAbilityItemConfigs(_dataSourcePath);
+        // }
+        //
+        // private AbilitiesRepository CreateAbilitiesRepository(IEnumerable<IAbilityItem> abilityItemConfigs)
+        // {
+        //     AbilitiesRepository repository = new(abilityItemConfigs);
+        //     AddDisposable(repository);
+        //
+        //     return repository;
+        // }
+        //
+        // private AbilitiesView LoadAbilitiesView(Transform placeForUi)
+        // {
+        //     ResourcePath _viewPath = new("Prefabs/Ability/AbilitiesView");
+        //     GameObject prefab = ResourcesLoader.LoadPrefab(_viewPath);
+        //     GameObject objectView = UnityEngine.Object.Instantiate(prefab, placeForUi, false);
+        //     AddGameObject(objectView);
+        //
+        //     return objectView.GetComponent<AbilitiesView>();
+        // }
     }
 }

@@ -9,9 +9,8 @@ using UnityEngine.Analytics;
 internal class EntryPoint : MonoBehaviour
 {
     private const GameState InitialState = GameState.Start;
-
-    [SerializeField] private float _speedCar = 15f;
-    [SerializeField] private float _jumpHeight = 3f;
+    
+    [SerializeField] private GameStartSettings _settings;
     [SerializeField] private Transform _placeForUi;
     [SerializeField] private AnalyticsManager _analyticsManager;
 
@@ -20,12 +19,12 @@ internal class EntryPoint : MonoBehaviour
 
     private void Start()
     {
-        var profilePlayer = new ProfilePlayer(_speedCar, _jumpHeight, InitialState);
+        var profilePlayer = new ProfilePlayer(_settings.SpeedCar, _settings.JumpHeight, InitialState);
         _mainController = new MainController(_placeForUi, profilePlayer, _analyticsManager);
 
         Analytics.CustomEvent("MainMenuOpenedFromStart", new Dictionary<string, object>()
         {
-            ["Car speed"] = _speedCar,
+            ["Car speed"] = _settings.SpeedCar,
         });
         _analyticsManager.SendMainMenuOpenedEvent();
 
