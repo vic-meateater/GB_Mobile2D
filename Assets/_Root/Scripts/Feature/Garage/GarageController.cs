@@ -4,6 +4,7 @@ using JetBrains.Annotations;
 using Profile;
 using System;
 using System.Collections.Generic;
+using Feature.Inventory.Items;
 using Tool;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -49,7 +50,10 @@ namespace Feature.Garage
         }
         private InventoryController CreateInventoryController(Transform placeForUi)
         {
-            InventoryController inventoryController = new(placeForUi, _profilePlayer.Inventory);
+            InventoryView inventoryView = LoadInventoryView(placeForUi);
+            IInventoryModel inventoryModel = _profilePlayer.Inventory;
+            IItemsRepository itemRepository = CreateItemRepository();
+            InventoryController inventoryController = new(inventoryView, inventoryModel, itemRepository);
             AddDisposable(inventoryController);
             return inventoryController;
         }
@@ -60,6 +64,25 @@ namespace Feature.Garage
             AddGameObject(objectView);
 
             return objectView.GetComponent<GarageView>();
+        }
+        
+        private ItemsRepository CreateItemRepository()
+        {
+            ResourcePath _dataSourcePath = new ResourcePath("Configs/Inventory/ItemConfigDataSource");
+            ItemConfig[] itemConfigs = ContentDataSourceLoader.LoadItemConfigs(_dataSourcePath);
+            ItemsRepository repository = new(itemConfigs);
+            AddDisposable(repository);
+            return repository;
+        }
+
+        private InventoryView LoadInventoryView(Transform placeForUi)
+        {
+            ResourcePath _viewPath = new ResourcePath("Prefabs/Inventory/InventoryView");
+            GameObject prefab = ResourcesLoader.LoadPrefab(_viewPath);
+            GameObject objectView = Object.Instantiate(prefab, placeForUi);
+            AddGameObject(objectView);
+
+            return objectView.GetComponent<InventoryView>();
         }
 
         private void Apply()

@@ -4,10 +4,10 @@ namespace Feature.Inventory.Items
 {
     internal interface IItemsRepository
     {
-        IReadOnlyDictionary<string, IItem> GetItems();
+        IReadOnlyDictionary<string, IItem> Items { get; }
     }
 
-    internal class ItemsRepository : BaseRepository<string, IItem, ItemConfig>
+    internal class ItemsRepository : BaseRepository<string, IItem, ItemConfig>, IItemsRepository
     {
         public ItemsRepository(IEnumerable<ItemConfig> configs) : base(configs)
         {
