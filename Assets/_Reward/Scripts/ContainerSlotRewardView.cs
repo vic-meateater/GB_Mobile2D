@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Rewards
@@ -14,7 +13,7 @@ namespace Rewards
         [SerializeField] private TMP_Text _countReward;
 
 
-        public void SetData(Reward reward, int countDay, bool isSelected)
+        public void SetData(RewardConfig reward, int countDay, bool isSelected)
         {
             _сurrencyIcon.sprite = reward.CurrencyIcon;
             _textDays.text = $"Day {countDay}";

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,10 +9,6 @@ namespace Rewards
     {
         private const string CurrentSlotInActiveKey = nameof(CurrentSlotInActiveKey);
         private const string TimeGetRewardKey = nameof(TimeGetRewardKey);
-
-
-        [field: Header("Settings Rewards")]
-        [field: SerializeField] public List<Reward> Rewards { get; private set; }
 
         [field: Header("Ui Elements")]
         [field: SerializeField] public TMP_Text TimerNewReward { get; private set; }

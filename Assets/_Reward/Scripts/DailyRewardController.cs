@@ -10,6 +10,7 @@ namespace Rewards
     {
         private readonly DailyRewardView _dailyRewardView;
         private readonly CurrencyView _currencyView;
+        private readonly RewardsConfig _rewardsList;
 
         private List<ContainerSlotRewardView> _slots;
         private Coroutine _coroutine;
@@ -18,10 +19,11 @@ namespace Rewards
         private bool _isInitialized;
 
 
-        public DailyRewardController(DailyRewardView dailyRewardView, CurrencyView currencyView)
+        public DailyRewardController(DailyRewardView dailyRewardView, CurrencyView currencyView, GameConfig gameConfig)
         {
             _dailyRewardView = dailyRewardView;
             _currencyView = currencyView;
+            _rewardsList = gameConfig.RewardsConfig;
         }
 
 
@@ -55,7 +57,7 @@ namespace Rewards
         {
             _slots = new List<ContainerSlotRewardView>();
 
-            for (int i = 0; i < _dailyRewardView.Rewards.Count; i++)
+            for (int i = 0; i < _rewardsList.Rewards.Count; i++)
             {
                 ContainerSlotRewardView instanceSlot = CreateSlotRewardView();
                 _slots.Add(instanceSlot);
@@ -121,21 +123,20 @@ namespace Rewards
             if (!_isGetReward)
                 return;
 
-            Reward reward = _dailyRewardView.Rewards[_dailyRewardView.CurrentSlotInActive];
+            RewardConfig reward = _rewardsList.Rewards[_dailyRewardView.CurrentSlotInActive];
 
-            // switch (reward.RewardType)
-            // {
-            //     case RewardType.Wood:
-            //         _currencyView.AddWood(reward.CountCurrency);
-            //         break;
-            //     case RewardType.Diamond:
-            //         _currencyView.AddDiamond(reward.CountCurrency);
-            //         break;
-            //     case RewardType.Coin:
-            //         _currencyView.AddCoin(reward.CountCurrency);
-            //         break;
-            // }
-            _currencyView.AddReward(reward.RewardType.ToString(), reward.CountCurrency, _slots[reward.RewardType]);
+            switch (reward.RewardType)
+            {
+                case RewardType.Wood:
+                    _currencyView.AddWood(reward.CountCurrency);
+                    break;
+                case RewardType.Diamond:
+                    _currencyView.AddDiamond(reward.CountCurrency);
+                    break;
+                case RewardType.Coin:
+                    _currencyView.AddCoin(reward.CountCurrency);
+                    break;
+            }
 
             _dailyRewardView.TimeGetReward = DateTime.UtcNow;
             _dailyRewardView.CurrentSlotInActive++;
@@ -153,7 +154,7 @@ namespace Rewards
                 return;
             }
 
-            foreach (var reward in _dailyRewardView.Rewards)
+            foreach (var reward in _rewardsList.Rewards)
             {
                 TimeSpan timeFromLastRewardGetting =
                     DateTime.UtcNow - _dailyRewardView.TimeGetReward.Value;
@@ -192,7 +193,7 @@ namespace Rewards
 
             if (_dailyRewardView.TimeGetReward.HasValue)
             {
-                foreach (Reward reward in _dailyRewardView.Rewards)
+                foreach (RewardConfig reward in _rewardsList.Rewards)
                 {
                     DateTime nextClaimTime = _dailyRewardView.TimeGetReward.Value.AddSeconds(reward.TimeCooldown);
                     TimeSpan currentClaimCooldown = nextClaimTime - DateTime.UtcNow;
@@ -213,7 +214,7 @@ namespace Rewards
         {
             for (int i = 0; i < _slots.Count; i++)
             {
-                Reward reward = _dailyRewardView.Rewards[i];
+                RewardConfig reward = _rewardsList.Rewards[i];
                 int countDay = i + 1;
                 bool isSelected = i == _dailyRewardView.CurrentSlotInActive;
 

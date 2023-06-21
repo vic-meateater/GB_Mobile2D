@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Rewards
 {
-    internal class CurrencySlotView : MonoBehaviour
+    internal class CurrencySlotView : MonoBehaviour 
     {
         [SerializeField] private TMP_Text _count;
         
