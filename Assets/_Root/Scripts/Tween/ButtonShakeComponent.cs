@@ -20,7 +20,7 @@ public class ButtonShakeComponent : MonoBehaviour
     private void StartTween()
     {
         if (_isTweening) return;
-        _shakeTween = _button.transform.DOShakePosition(1f, 10f, 20, 90f, false, true);
+        _shakeTween = _button.transform.DOShakePosition(1f, 10f, 20, 90f, true, true);
         _isTweening = true;
     }
 
