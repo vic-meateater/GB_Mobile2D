@@ -1,4 +1,5 @@
 using Feature.AbilitySystem;
+using Features.Fight;
 using Game.Car;
 using Game.InputLogic;
 using Game.TapeBackground;
@@ -16,6 +17,7 @@ namespace Game
         private readonly CarController _carController;
         private readonly InputGameController _inputGameController;
         private readonly TapeBackgroundController _tapeBackgroundController;
+        private readonly StartFightController _startFightController;
         private readonly AbilitiesContext _abilitiesContext;
         
         public GameController(Transform placeForUi, ProfilePlayer profilePlayer)
@@ -31,6 +33,9 @@ namespace Game
 
             var carController = new CarController();
             AddDisposable(carController);
+
+            var startFightController = new StartFightController(placeForUi, profilePlayer);
+            AddDisposable(startFightController);
             
             _abilitiesContext = CreateAbilitiesContext(placeForUi, carController);
         }

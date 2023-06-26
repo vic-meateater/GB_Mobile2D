@@ -7,5 +7,6 @@ namespace Profile
         Game,
         Settings,
         Garage,
+        Fight,
     }
 }

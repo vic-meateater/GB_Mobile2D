@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace BattleScripts
+namespace Features.Fight
 {
     internal class MainWindowMediator : MonoBehaviour
     {

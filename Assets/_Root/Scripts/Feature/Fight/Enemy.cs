@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace BattleScripts
+namespace Features.Fight
 {
     internal interface IEnemy
     {

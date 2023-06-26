@@ -4,6 +4,7 @@ using Profile;
 using UnityEngine;
 using Tool.Analytics;
 using Feature.Garage;
+using Features.Fight;
 
 internal class MainController : BaseController
 {
@@ -15,6 +16,7 @@ internal class MainController : BaseController
     private GameController _gameController;
     private GarageContext _garageContext;
     private SettingMenuController _settingGameController;
+    private FightController _fightController;
 
 
 
@@ -53,8 +55,10 @@ internal class MainController : BaseController
                 _analyticsManager.SendGameStartEvent();
                 break;
             case GameState.Garage:
-                //_garageController = new GarageController(_placeForUi, _profilePlayer);
                 _garageContext = new GarageContext(_placeForUi, _profilePlayer);
+                break;
+            case GameState.Fight:
+                _fightController = new FightController(_placeForUi, _profilePlayer);
                 break;
             default:
                 OnDisposeControllers();
@@ -68,5 +72,6 @@ internal class MainController : BaseController
         _gameController?.Dispose();
         _settingGameController?.Dispose();
         _garageContext?.Dispose();
+        _fightController?.Dispose();
     }
 }
