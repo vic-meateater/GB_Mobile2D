@@ -2,7 +2,7 @@ using Tool;
 using Profile;
 using UnityEngine;
 
-namespace Features.Fight
+namespace Feature.Fight
 {
     internal class StartFightController : BaseController
     {

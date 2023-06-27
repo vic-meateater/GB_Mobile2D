@@ -1,6 +1,7 @@
 using Feature.AbilitySystem;
-using Features.Fight;
+using Feature.Fight;
 using Game.Car;
+using Game.InGameMenu;
 using Game.InputLogic;
 using Game.TapeBackground;
 using Profile;
@@ -18,6 +19,7 @@ namespace Game
         private readonly InputGameController _inputGameController;
         private readonly TapeBackgroundController _tapeBackgroundController;
         private readonly StartFightController _startFightController;
+        private readonly StartInGameMenuController _inGameMenuController;
         private readonly AbilitiesContext _abilitiesContext;
         
         public GameController(Transform placeForUi, ProfilePlayer profilePlayer)
@@ -28,16 +30,19 @@ namespace Game
             _tapeBackgroundController = new TapeBackgroundController(_leftMoveDiff, _rightMoveDiff);
             AddDisposable(_tapeBackgroundController);
 
-            var inputGameController = new InputGameController(_leftMoveDiff, _rightMoveDiff, profilePlayer.CurrentCar);
-            AddDisposable(inputGameController);
+            _inputGameController = new InputGameController(_leftMoveDiff, _rightMoveDiff, profilePlayer.CurrentCar);
+            AddDisposable(_inputGameController);
 
-            var carController = new CarController();
-            AddDisposable(carController);
+            _carController = new CarController();
+            AddDisposable(_carController);
 
-            var startFightController = new StartFightController(placeForUi, profilePlayer);
-            AddDisposable(startFightController);
+            _startFightController = new StartFightController(placeForUi, profilePlayer);
+            AddDisposable(_startFightController);
+
+            _inGameMenuController = new StartInGameMenuController(placeForUi, profilePlayer);
+            AddDisposable(_inGameMenuController);
             
-            _abilitiesContext = CreateAbilitiesContext(placeForUi, carController);
+            _abilitiesContext = CreateAbilitiesContext(placeForUi, _carController);
         }
 
         private AbilitiesContext CreateAbilitiesContext(Transform placeForUi, IAbilityActivator abilityActivator)

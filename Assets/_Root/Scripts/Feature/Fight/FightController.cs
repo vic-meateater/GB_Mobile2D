@@ -5,7 +5,7 @@ using Tool;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Features.Fight
+namespace Feature.Fight
 {
     internal class FightController : BaseController
     {

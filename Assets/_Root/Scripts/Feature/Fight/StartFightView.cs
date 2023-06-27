@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-namespace Features.Fight
+namespace Feature.Fight
 {
     internal class StartFightView : MonoBehaviour
     {

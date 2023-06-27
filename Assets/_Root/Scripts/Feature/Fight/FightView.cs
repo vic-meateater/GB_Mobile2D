@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Features.Fight
+namespace Feature.Fight
 {
     internal class FightView : MonoBehaviour
     {

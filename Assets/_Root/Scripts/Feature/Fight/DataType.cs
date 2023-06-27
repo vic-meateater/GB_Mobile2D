@@ -1,4 +1,4 @@
-namespace Features.Fight
+namespace Feature.Fight
 {
     internal enum DataType
     {

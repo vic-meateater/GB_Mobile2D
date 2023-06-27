@@ -4,7 +4,7 @@ using Profile;
 using UnityEngine;
 using Tool.Analytics;
 using Feature.Garage;
-using Features.Fight;
+using Feature.Fight;
 
 internal class MainController : BaseController
 {

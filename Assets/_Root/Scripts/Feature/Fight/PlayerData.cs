@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Features.Fight
+namespace Feature.Fight
 {
     internal class PlayerData
     {
