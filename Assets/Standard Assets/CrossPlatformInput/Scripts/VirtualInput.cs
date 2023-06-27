@@ -32,6 +32,7 @@ namespace UnityStandardAssets.CrossPlatformInput
 
         public void RegisterVirtualAxis(CrossPlatformInputManager.VirtualAxis axis)
         {
+            UnRegisterVirtualAxis(axis.name);
             // check if we already have an axis with that name and log and error if we do
             if (m_VirtualAxes.ContainsKey(axis.name))
             {

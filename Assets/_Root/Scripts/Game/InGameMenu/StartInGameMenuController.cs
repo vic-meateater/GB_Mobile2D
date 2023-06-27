@@ -40,12 +40,19 @@ namespace Game.InGameMenu
         private void Subscribe(StartInGameMenuView view)
         {
             view.InGameMenuButton.onClick.AddListener(OnInGameMenu);
+            view.PauseButton.onClick.AddListener(OnPause);
         }
 
         private void Unsubscribe(StartInGameMenuView view)
         {
             view.InGameMenuButton.onClick.RemoveListener(OnInGameMenu);
+            view.PauseButton.onClick.RemoveListener(OnPause);
         }
+
+        private void OnPause() =>
+            Time.timeScale = Time.timeScale == 0f ? 1f : 0f;
+        
+
         private void OnInGameMenu()
         {
             _gameMenuController = new GameMenuController(_placeForUi, _profilePlayer);

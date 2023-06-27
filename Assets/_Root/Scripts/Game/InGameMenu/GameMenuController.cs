@@ -6,6 +6,9 @@ namespace Game.InGameMenu
 {
     internal class GameMenuController: BaseController
     {
+        private const float START_TIME = 1f;
+        private const float STOP_TIME = 0f;
+        
         private readonly ResourcePath _resourcePath = new("Prefabs/InGameMenu/InGameMenuView");
 
         private readonly GameMenuView _view;
@@ -29,6 +32,7 @@ namespace Game.InGameMenu
             GameObject prefab = ResourcesLoader.LoadPrefab(_resourcePath);
             GameObject objectView = Object.Instantiate(prefab, placeForUi, false);
             AddGameObject(objectView);
+            Time.timeScale = STOP_TIME;
 
             return objectView.GetComponent<GameMenuView>();
         }
@@ -36,15 +40,24 @@ namespace Game.InGameMenu
         private void Subscribe(GameMenuView view)
         {
             view.BackToMainButton.onClick.AddListener(BackToMainMenu);
+            view.CloseButton.onClick.AddListener(Close);
         }
         private void Unsubscribe(GameMenuView view)
         {
             view.BackToMainButton.onClick.RemoveListener(BackToMainMenu);
+            view.CloseButton.onClick.RemoveListener(Close);
         }
 
 
         private void BackToMainMenu() => 
             _profilePlayer.CurrentState.Value = GameState.Start;
+
+        private void Close()
+        {
+            Time.timeScale = START_TIME;
+            Dispose();
+        }
+          
 
     }
 }
