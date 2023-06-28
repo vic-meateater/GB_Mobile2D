@@ -1,5 +1,6 @@
 ﻿using Feature.Fight;
 using Profile;
+using System.Xml.Serialization;
 using Tool;
 using UnityEngine;
 
@@ -49,8 +50,8 @@ namespace Game.InGameMenu
             view.PauseButton.onClick.RemoveListener(OnPause);
         }
 
-        private void OnPause() =>
-            Time.timeScale = Time.timeScale == 0f ? 1f : 0f;
+        private void OnPause() => 
+            CheckTimescale();
         
 
         private void OnInGameMenu()
@@ -59,5 +60,9 @@ namespace Game.InGameMenu
             AddDisposable(_gameMenuController);
         }
 
+        private void CheckTimescale()
+        {
+            Time.timeScale = Time.timeScale == 0f ? 1f : 0f;
+        }
     }
 }

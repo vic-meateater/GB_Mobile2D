@@ -49,15 +49,21 @@ namespace Game.InGameMenu
         }
 
 
-        private void BackToMainMenu() => 
+        private void BackToMainMenu()
+        {
+            CheckTimescale();
             _profilePlayer.CurrentState.Value = GameState.Start;
+        }
 
         private void Close()
         {
-            Time.timeScale = START_TIME;
+            CheckTimescale();
             Dispose();
         }
-          
 
+        private void CheckTimescale()
+        {
+            Time.timeScale = Time.timeScale == 0f ? 1f : 0f;
+        }
     }
 }
