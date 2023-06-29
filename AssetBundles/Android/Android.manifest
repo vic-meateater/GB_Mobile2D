@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 847259875
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: ui_graphic_resource
+      Dependencies: {}
