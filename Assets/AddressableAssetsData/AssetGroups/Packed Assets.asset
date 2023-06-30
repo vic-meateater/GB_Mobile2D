@@ -17,11 +17,11 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 3b757c30109e87549ae012d1350610a8
   m_SerializeEntries:
-  - m_GUID: f81f6f1c8b1ce7041a12d0c9f430ddd9
-    m_Address: Assets/_Root/Prefabs/AddressableButton.prefab
+  - m_GUID: 4ba77a454e7aad044bcc1f19ba794bcb
+    m_Address: backAddressable
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Buttons
+    - Image
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 246ad4da7187f0b478d04fb4103dc5e5, type: 2}
